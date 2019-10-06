@@ -1,0 +1,13 @@
+<% require('./planets.json').forEach(({ id, name, background }) => { %>
+  <section id="<%= id %>">
+    <div class="spaced dark">
+      <img class="planet" src="images/<%= id %>.svg" alt="<%= name %>" title="<%= name %>">
+      <p>On <strong><%= name %></strong> you are <strong id="<%= id %>-age"></strong> old.</p>
+      <p>
+        One year here lasts <strong id="<%= id %>-year-days"></strong>,<br>
+        while one day lasts <strong id="<%= id %>-day-length"></strong>
+      </p>
+      <p>Your next birthday will be on <strong id="<%= id %>-birthday"></strong></p>
+    </div>
+  </section>
+<% }) %>
