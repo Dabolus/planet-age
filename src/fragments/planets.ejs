@@ -6,7 +6,7 @@
       <p>
         One year here lasts <strong>≈ <%= revolutionTime.toFixed(2) %><%= id === 'earth' ? '' : ' local' %> days</strong><%= id === 'earth' ? '.' : ',' %>
         <% if (id !== 'earth') { %>
-          <br>while one day lasts <strong> ≈<%= (rotationTime + 0.002730319999999953).toFixed(2) %> terrestrial days.</strong>
+          <br>while one day lasts <strong>≈ <%= (rotationTime + 0.002730319999999953).toFixed(2) %> terrestrial days.</strong>
         <% } %>
       </p>
       <p>Your next birthday will be on <strong id="<%= id %>-birthday"></strong>.</p>
