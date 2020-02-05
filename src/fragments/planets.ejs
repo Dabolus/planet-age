@@ -1,13 +1,15 @@
-<% require('./planets.json').forEach(({ id, name, background }) => { %>
+<% require('./planets.json').forEach(({ id, name, background, rotationTime, revolutionTime }) => { %>
   <section id="<%= id %>">
     <div class="spaced dark">
       <img class="planet" src="images/<%= id %>.svg" alt="<%= name %>" title="<%= name %>">
       <p>On <strong><%= name %></strong> you are <strong id="<%= id %>-age"></strong> old.</p>
       <p>
-        One year here lasts <strong id="<%= id %>-year-days"></strong>,<br>
-        while one day lasts <strong id="<%= id %>-day-length"></strong>
+        One year here lasts <strong>≈ <%= revolutionTime.toFixed(2) %><%= id === 'earth' ? '' : ' local' %> days</strong><%= id === 'earth' ? '.' : ',' %>
+        <% if (id !== 'earth') { %>
+          <br>while one day lasts <strong> ≈<%= (rotationTime + 0.002730319999999953).toFixed(2) %> terrestrial days.</strong>
+        <% } %>
       </p>
-      <p>Your next birthday will be on <strong id="<%= id %>-birthday"></strong></p>
+      <p>Your next birthday will be on <strong id="<%= id %>-birthday"></strong>.</p>
     </div>
   </section>
 <% }) %>
