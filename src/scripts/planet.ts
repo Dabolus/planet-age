@@ -1,8 +1,16 @@
 export type Planet = typeof import('../planets.json')[0];
 
+export type PlanetConfiguration = Planet & {
+  readonly earthRevolutionTime: number;
+};
+
 const dateFormat = new Intl.DateTimeFormat();
 
-export const configurePlanet = ({ id, revolutionTime }: Planet) => {
+export const configurePlanet = ({
+  id,
+  revolutionTime,
+  earthRevolutionTime,
+}: PlanetConfiguration) => {
   const ageElement = document.querySelector<HTMLElement>(`#${id}-age`);
   const nextBirthdayElement = document.querySelector<HTMLElement>(
     `#${id}-birthday`,
@@ -27,26 +35,37 @@ export const configurePlanet = ({ id, revolutionTime }: Planet) => {
       ageElement.innerText = finalString;
 
       if (id === 'earth') {
-        nextBirthdayElement.innerText = dateFormat.format(birthday);
+        nextBirthdayElement.innerText = `on ${dateFormat.format(birthday)}`;
+
         return;
       }
 
-      const nextBirthday = new Date(
+      const nextBirthdayMilliseconds =
         now +
-          revolutionTime *
-            (1 -
-              (earthAge / revolutionTime > 1
-                ? earthAge / revolutionTime -
-                  Math.floor(earthAge / revolutionTime)
-                : earthAge / revolutionTime)) *
-            86400000,
-      );
+        revolutionTime *
+          (1 -
+            (earthAge / revolutionTime > 1
+              ? earthAge / revolutionTime -
+                Math.floor(earthAge / revolutionTime)
+              : earthAge / revolutionTime)) *
+          86400000;
 
-      const formattedDate = isNaN(nextBirthday.valueOf())
-        ? 'never'
-        : dateFormat.format(nextBirthday);
+      const nextBirthday = new Date(nextBirthdayMilliseconds);
 
-      nextBirthdayElement.innerText = formattedDate;
+      // If the date is too large
+      if (isNaN(nextBirthday.valueOf())) {
+        const nextBirthdayYears = Math.floor(
+          nextBirthdayMilliseconds / 86400000 / earthRevolutionTime,
+        );
+
+        nextBirthdayElement.innerText = `≈ ${nextBirthdayYears} years from now`;
+
+        return;
+      }
+
+      const formattedDate = dateFormat.format(nextBirthday);
+
+      nextBirthdayElement.innerText = `on ${formattedDate}`;
     },
   };
 };

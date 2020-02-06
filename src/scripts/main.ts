@@ -13,8 +13,15 @@ export const start = () => {
     birthdayPicker.value = cachedDate;
   }
 
+  const { revolutionTime: earthRevolutionTime } = planetsConfig.find(
+    ({ id }) => id === 'earth',
+  );
+
   const planets = planetsConfig.map(planetConfig =>
-    configurePlanet(planetConfig),
+    configurePlanet({
+      ...planetConfig,
+      earthRevolutionTime,
+    }),
   );
 
   installRouter(path => {
