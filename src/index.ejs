@@ -14,6 +14,21 @@
     <meta name="application-name" content="Planet Age">
     <meta name="msapplication-config" content="browserconfig.xml">
     <meta name="theme-color" content="#87a1ff">
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+      }
+    </style>
   </head>
   <body>
     <main>
@@ -21,9 +36,13 @@
         <div>
           <h3>Insert your birthday</h3>
           <div class="input-container">
-            <input type="date" id="birthday">
+            <input type="date" id="birthday" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
           </div>
-          <button id="start" disabled>Let's go!</button>
+          <button id="start" disabled>
+            <div>Let's go!</div>
+          </button>
         </div>
       </section>
       <%- include fragments/planets -%>
