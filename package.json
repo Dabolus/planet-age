@@ -2,11 +2,17 @@
   "name": "planet-age",
   "version": "0.0.0",
   "scripts": {
-    "start": "vite src",
-    "build": "vite build src",
-    "serve": "vite preview src"
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^2.2.3"
+    "@types/js-yaml": "^4.0.1",
+    "@types/node": "^15.0.2",
+    "js-yaml": "^4.1.0",
+    "tosource": "^2.0.0-alpha.2",
+    "typescript": "^4.2.4",
+    "vite": "^2.2.3",
+    "vite-plugin-html": "^2.0.7"
   }
 }
