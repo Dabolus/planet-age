@@ -6,7 +6,6 @@ import yaml from './plugins/yaml';
 import { load } from 'js-yaml';
 
 export default defineConfig(async () => ({
-  root: 'src',
   plugins: [
     yaml(),
     minifyHtml(),
