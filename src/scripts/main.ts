@@ -5,6 +5,7 @@ import { navigate, setupRouter, computeUrl, getRoutingData } from './routing';
 import { debounce } from './utils';
 import { updateMetadata } from 'pwa-helpers';
 
+const birthdayForm = document.querySelector<HTMLFormElement>('#birthday-form')!;
 const birthdayPicker = document.querySelector<HTMLInputElement>('#birthday')!;
 const startButton = document.querySelector<HTMLButtonElement>('#start')!;
 const main = document.querySelector<HTMLDivElement>('main')!;
@@ -70,7 +71,9 @@ birthdayPicker.addEventListener('input', ({ target }) => {
   startButton.disabled = !isDate(value);
 });
 
-startButton.addEventListener('click', () => {
+birthdayForm.addEventListener('submit', event => {
+  event.preventDefault();
+
   const { value } = birthdayPicker;
 
   if (!isDate(value)) {

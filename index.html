@@ -37,17 +37,17 @@
   <body>
     <main class="locked">
       <section id="birthday-section">
-        <div>
+        <form id="birthday-form">
           <h3>Insert your birthday</h3>
           <div class="input-container">
             <input type="date" id="birthday" required>
             <span class="highlight"></span>
             <span class="bar"></span>
           </div>
-          <button id="start" disabled>
+          <button id="start" type="submit" disabled>
             <div>Let's go!</div>
           </button>
-        </div>
+        </form>
       </section>
       <% planets.forEach(({ id, name, background, dark, rotationTime, revolutionTime }) => { %>
         <section id="<%= id %>">
