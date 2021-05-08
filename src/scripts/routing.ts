@@ -12,9 +12,11 @@ export interface RoutingData {
 }
 
 export const getRoutingData = (
-  { pathname }: Location = window.location,
+  { href }: Location = window.location,
 ): RoutingData => {
-  const [, pathDate, pathPlanet] = pathname.split('/');
+  const pathname = href.replace(document.baseURI, '');
+
+  const [pathDate, pathPlanet] = pathname.split('/');
 
   const cachedDate = localStorage.getItem('date');
 
@@ -26,10 +28,10 @@ export const getRoutingData = (
 
   const planet = isPlanet(pathPlanet) ? pathPlanet : undefined;
 
-  const path = `/${[
+  const path = [
     ...(date ? [date] : []),
     ...(date && planet ? [planet] : []),
-  ].join('/')}`;
+  ].join('/');
 
   return {
     path,
@@ -57,9 +59,7 @@ export const setupRouter = (
 export const computeUrl = (date?: Date, planet?: string) => {
   const formattedDate = date?.toISOString().slice(0, 10);
 
-  return `/${
-    formattedDate ? `${formattedDate}${planet ? `/${planet}` : ''}` : ''
-  }`;
+  return formattedDate ? `${formattedDate}${planet ? `/${planet}` : ''}` : '';
 };
 
 export const navigate = (date?: Date, planet?: string) => {

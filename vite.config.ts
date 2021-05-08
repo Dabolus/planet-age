@@ -6,6 +6,7 @@ import yaml from './plugins/yaml';
 import { load } from 'js-yaml';
 
 export default defineConfig(async () => ({
+  base: '/planet-age/',
   plugins: [
     yaml(),
     minifyHtml(),

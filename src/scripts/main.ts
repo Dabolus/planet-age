@@ -45,7 +45,6 @@ setupRouter((date, planet) => {
 
   const { ref, background } = planetsKeyVal[planet];
 
-  console.log(ref);
   ref.scrollIntoView({ behavior: 'smooth' });
   main.style.backgroundColor = background;
 });
@@ -82,13 +81,11 @@ main.addEventListener(
   debounce(() => {
     const planet = planets[Math.round(main.scrollTop / window.innerHeight) - 1];
 
-    if (planet) {
-      const { path, date } = getRoutingData();
-      const newPath = computeUrl(date, planet.id);
+    const { path, date } = getRoutingData();
+    const newPath = computeUrl(date, planet?.id);
 
-      if (path !== newPath) {
-        history.pushState({}, '', newPath);
-      }
+    if (path !== newPath) {
+      history.pushState({}, '', newPath);
     }
   }, 100),
   { passive: true },
