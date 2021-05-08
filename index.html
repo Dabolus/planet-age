@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <title>Planet Age</title>
+    <base href="/">
+    <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="194x194" href="images/icons/favicon-194x194.png">
@@ -14,6 +16,8 @@
     <meta name="application-name" content="Planet Age">
     <meta name="msapplication-config" content="browserconfig.xml">
     <meta name="theme-color" content="#87a1ff">
+    <script type="module" src="/src/scripts/main.ts"></script>
+    <link rel="stylesheet" href="/src/styles/main.scss">
 
     <style>
       * {
@@ -31,7 +35,7 @@
     </style>
   </head>
   <body>
-    <main>
+    <main class="locked">
       <section id="birthday-section">
         <div>
           <h3>Insert your birthday</h3>
@@ -45,7 +49,21 @@
           </button>
         </div>
       </section>
-      <%- include fragments/planets -%>
+      <% planets.forEach(({ id, name, background, dark, rotationTime, revolutionTime }) => { %>
+        <section id="<%= id %>">
+          <div class="spaced <%= dark ? 'dark' : '' %>">
+            <img class="planet" src="images/<%= id %>.svg" alt="<%= name %>" title="<%= name %>">
+            <p>On <strong><%= name %></strong> you are <strong id="<%= id %>-age"></strong> old.</p>
+            <p>
+              <strong>One year</strong> here lasts <strong>≈ <%= revolutionTime.toFixed(2) %><%= id === 'earth' ? '' : ' local' %> days</strong><%= id === 'earth' ? '.' : ',' %>
+              <% if (id !== 'earth') { %>
+                <br>while <strong>one day</strong> lasts <strong>≈ <%= (rotationTime + 0.002730319999999953).toFixed(2) %> terrestrial days.</strong>
+              <% } %>
+            </p>
+            <p>Your <strong>next birthday</strong> will be <strong id="<%= id %>-birthday"></strong>.</p>
+          </div>
+        </section>
+      <% }) %>
     </main>
   </body>
 </html>

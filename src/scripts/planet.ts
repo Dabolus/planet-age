@@ -1,22 +1,33 @@
-export type Planet = typeof import('../planets.json')[0];
+import { Planet } from '../data/planets.yml';
 
-export type PlanetConfiguration = Planet & {
+export interface PlanetConfiguration extends Planet {
   readonly earthRevolutionTime: number;
-};
+}
 
 const dateFormat = new Intl.DateTimeFormat();
+
+export interface PlanetInstance extends Planet {
+  readonly ref: HTMLElement;
+  readonly computeAge: (birthday: Date) => void;
+}
 
 export const configurePlanet = ({
   id,
   revolutionTime,
   earthRevolutionTime,
-}: PlanetConfiguration) => {
-  const ageElement = document.querySelector<HTMLElement>(`#${id}-age`);
+  ...rest
+}: PlanetConfiguration): PlanetInstance => {
+  const ref = document.querySelector<HTMLElement>(`#${id}`)!;
+  const ageElement = document.querySelector<HTMLElement>(`#${id}-age`)!;
   const nextBirthdayElement = document.querySelector<HTMLElement>(
     `#${id}-birthday`,
-  );
+  )!;
 
   return {
+    id,
+    revolutionTime,
+    ref,
+    ...rest,
     computeAge(birthday: Date) {
       const now = Date.now();
       const earthAge = (now - birthday.getTime()) / 86400000; // Number of milliseconds in a day

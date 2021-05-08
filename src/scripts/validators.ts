@@ -1,10 +1,10 @@
-import planets from "../planets.json";
+import planets from '../data/planets.yml';
 
-export const validateAge = (age?: unknown) => {
-  if (!age || typeof age !== "string") {
+export const isDate = (date?: unknown): date is string => {
+  if (!date || typeof date !== 'string') {
     return false;
   }
-  const match = age.match(/^([1-9]\d{3})-(\d{1,2})-(\d{1,2})$/);
+  const match = date.match(/^([1-9]\d{3})-(\d{1,2})-(\d{1,2})$/);
 
   if (!match) {
     return false;
@@ -34,14 +34,14 @@ export const validateAge = (age?: unknown) => {
         30,
         31,
         30,
-        31
+        31,
       ][month - 1] &&
     new Date(year, month - 1, day) < new Date()
   );
 };
 
-export const validatePlanet = (planet?: unknown) => {
-  if (!planet || typeof planet !== "string") {
+export const isPlanet = (planet?: unknown): planet is string => {
+  if (!planet || typeof planet !== 'string') {
     return false;
   }
 

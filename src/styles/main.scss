@@ -136,6 +136,10 @@ main {
   scroll-snap-points-y: repeat(100vh);
   scroll-snap-type: y mandatory;
 
+  &.locked {
+    overflow: hidden;
+  }
+
   .spaced > * {
     margin: 8px 0;
   }
