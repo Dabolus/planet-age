@@ -3,6 +3,7 @@ import { isDate } from './validators';
 import { configurePlanet } from './planet';
 import { navigate, setupRouter, computeUrl, getRoutingData } from './routing';
 import { debounce } from './utils';
+import { updateMetadata } from 'pwa-helpers';
 
 const birthdayPicker = document.querySelector<HTMLInputElement>('#birthday')!;
 const startButton = document.querySelector<HTMLButtonElement>('#start')!;
@@ -23,6 +24,13 @@ const planetsKeyVal = Object.fromEntries(
   planets.map(planet => [planet.id, planet]),
 );
 
+const computeTitle = (date?: Date, planet?: string) =>
+  [
+    'Planet Age',
+    ...(date ? [date.toLocaleDateString('en')] : []),
+    ...(date && planet ? [planetsKeyVal[planet].name] : []),
+  ].join(' - ');
+
 setupRouter((date, planet) => {
   if (date) {
     birthdayPicker.value = date.toISOString().slice(0, 10);
@@ -36,17 +44,24 @@ setupRouter((date, planet) => {
       top: 0,
       behavior: 'smooth',
     });
+
+    updateMetadata({
+      title: computeTitle(date),
+    });
+
     return;
   }
 
-  const birthday = new Date(date);
+  planets.forEach(planet => planet.computeAge(date));
 
-  planets.forEach(planet => planet.computeAge(birthday));
-
-  const { ref, background } = planetsKeyVal[planet];
+  const { id, ref, background } = planetsKeyVal[planet];
 
   ref.scrollIntoView({ behavior: 'smooth' });
   main.style.backgroundColor = background;
+
+  updateMetadata({
+    title: computeTitle(date, id),
+  });
 });
 
 birthdayPicker.addEventListener('input', ({ target }) => {
@@ -86,6 +101,10 @@ main.addEventListener(
 
     if (path !== newPath) {
       history.pushState({}, '', newPath);
+
+      updateMetadata({
+        title: computeTitle(date, planet?.id),
+      });
     }
   }, 100),
   { passive: true },
