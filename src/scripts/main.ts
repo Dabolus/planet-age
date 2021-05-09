@@ -5,6 +5,8 @@ import { navigate, setupRouter, computeUrl, getRoutingData } from './routing';
 import { debounce } from './utils';
 import { updateMetadata } from 'pwa-helpers';
 
+history.scrollRestoration = 'manual';
+
 const birthdayForm = document.querySelector<HTMLFormElement>('#birthday-form')!;
 const birthdayPicker = document.querySelector<HTMLInputElement>('#birthday')!;
 const startButton = document.querySelector<HTMLButtonElement>('#start')!;
