@@ -29,7 +29,8 @@ export const configurePlanet = ({
     ref,
     ...rest,
     computeAge(birthday: Date) {
-      const now = Date.now();
+      const today = new Date();
+      const now = today.valueOf();
       const earthAge = (now - birthday.getTime()) / 86400000; // Number of milliseconds in a day
 
       const floatYears = earthAge / revolutionTime;
@@ -46,7 +47,21 @@ export const configurePlanet = ({
       ageElement.innerText = finalString;
 
       if (id === 'earth') {
-        nextBirthdayElement.innerText = `on ${dateFormat.format(birthday)}`;
+        const nextBirthday = new Date(birthday);
+
+        const currentMonth = today.getMonth();
+        const birthdayMonth = birthday.getMonth();
+
+        nextBirthday.setFullYear(
+          today.getFullYear() +
+            (currentMonth > birthdayMonth ||
+            (currentMonth === birthdayMonth &&
+              today.getDate() >= birthday.getDate())
+              ? 1
+              : 0),
+        );
+
+        nextBirthdayElement.innerText = `on ${dateFormat.format(nextBirthday)}`;
 
         return;
       }
